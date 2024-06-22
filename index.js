@@ -13,14 +13,16 @@ app.set('view engine', 'ejs');
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
-
 const readJSON = (filePath) => {
-  return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+  const fullPath = path.join(__dirname, filePath.replace(/^\.\//, ''));
+  return JSON.parse(fs.readFileSync(fullPath, 'utf8'));
 };
 
 const writeJSON = (filePath, data) => {
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+  const fullPath = path.join(__dirname, filePath.replace(/^\.\//, ''));
+  fs.writeFileSync(fullPath, JSON.stringify(data, null, 2));
 };
+
 
 app.get('/', (req, res) => {
   res.render('login');
